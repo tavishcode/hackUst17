@@ -8,7 +8,13 @@
     android:paddingBottom="5dp"
     android:paddingTop="5dp"
     android:background="#ffffff">
-
+    <ImageView
+        android:id="@+id/iv_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_launcher"
+        tools:layout_editor_absoluteY="10dp"
+        tools:layout_editor_absoluteX="-4dp" />
     <TextView
         android:id="@+id/tv_name"
         android:layout_toRightOf="@id/iv_image"
@@ -20,13 +26,7 @@
         tools:layout_editor_absoluteY="22dp"
         tools:layout_editor_absoluteX="63dp" />
 
-    <ImageView
-        android:id="@+id/iv_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher"
-        tools:layout_editor_absoluteY="10dp"
-        tools:layout_editor_absoluteX="-4dp" />
+
 
     <TextView
         android:layout_width="wrap_content"

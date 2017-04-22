@@ -35,11 +35,13 @@ import static com.google.android.gms.location.places.ui.PlacePicker.getPlace;
 public class StoreLocationActivity extends AppCompatActivity {
     int PLACE_PICKER_REQUEST = 1;
     Button map;
+    Button next;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.enter_location_layout);
         map=(Button)findViewById(R.id.mapBtn);
+        next=(Button)findViewById(R.id.nextBtn);
         map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,7 +83,18 @@ public class StoreLocationActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call call,final Response response){
                             try {
-                                Log.i("Store Location Activity",response.body().string());
+                                String res= response.body().string();
+                                Log.i("Store Location Activity",res);
+                                if(res.equals("SUCCESS"))
+                                {
+                                    next.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Intent i= new Intent(view.getContext(),Items.class);
+                                            startActivity(i);
+                                        }
+                                    });
+                                }
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

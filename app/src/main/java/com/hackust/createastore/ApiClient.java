@@ -35,4 +35,20 @@ public class ApiClient {
                 .build();
         return OkHttpSingleton.getOkHttpInstance().getOkHttpClient().newCall(request);
     }
+    public static Call addPhoto(RequestBody body)
+    {
+        HttpUrl httpUrl= new HttpUrl.Builder()
+                .scheme("http")
+                .host(baseUrl)
+                .port(port)
+                .addPathSegment("newInventory.php")
+                .build();
+        Log.i("Api Client",httpUrl.toString());
+        Request request= new Request.Builder()
+                .post(body)
+                .method("POST", body)
+                .url(httpUrl)
+                .build();
+        return OkHttpSingleton.getOkHttpInstance().getOkHttpClient().newCall(request);
+    }
 }
