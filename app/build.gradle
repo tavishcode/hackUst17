@@ -24,13 +24,10 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.1.0'
-<<<<<<< HEAD
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:+'
-=======
     compile 'com.google.android.gms:play-services-places:10.2.1'
     compile 'com.android.support:design:25.0.0'
     compile 'com.squareup.okhttp3:okhttp:3.3.0'
->>>>>>> 662f92dbe06ccd734de27fc2c55890bf23151cb6
     testCompile 'junit:junit:4.12'
 }
