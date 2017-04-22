@@ -15,7 +15,6 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 
-
 public class item0 extends ArrayAdapter<ItemObj> {
     public item0(Context context,ArrayList<ItemObj> users){
         super(context, 0, users);
@@ -25,6 +24,7 @@ public class item0 extends ArrayAdapter<ItemObj> {
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
         ItemObj user = getItem(position);
+
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_prod_list, parent, false);
@@ -44,8 +44,8 @@ public class item0 extends ArrayAdapter<ItemObj> {
         return convertView;
     }
 }
-// Construct the data source
-/*   ArrayList<ItemObj> arrayOfUsers = new ArrayList<ItemObj>();
+/*/ Construct the data source
+   ArrayList<ItemObj> arrayOfUsers = new ArrayList<ItemObj>();
     // Create the adapter to convert the array to views
     item0 adapter = new item0(this, arrayOfUsers);
     // Attach the adapter to a ListView
