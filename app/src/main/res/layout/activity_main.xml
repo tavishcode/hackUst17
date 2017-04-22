@@ -9,9 +9,46 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.hackust.createastore.MainActivity">
-
     <TextView
+        android:layout_marginLeft="4dp"
+        android:textSize="24sp"
+        android:textAlignment="center"
+        android:id="@+id/welcomeMsg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Welcome"/>
+    <android.support.design.widget.TextInputLayout
+        android:layout_below="@id/welcomeMsg"
+        android:id="@+id/input_layout_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/input_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="Username" />
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_below="@id/input_layout_username"
+        android:id="@+id/input_layout_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/input_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="Password" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:text="next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_below="@+id/input_layout_password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="39dp"
+        android:id="@+id/nextBtn" />
+
 </RelativeLayout>
