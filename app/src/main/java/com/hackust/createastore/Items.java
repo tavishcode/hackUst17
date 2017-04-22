@@ -83,18 +83,11 @@ public class Items extends AppCompatActivity {
                         .addFormDataPart("fileToUpload","item.jpeg", RequestBody.create(MEDIA_TYPE_JPEG,new File(mCurrentPhotoPath)))
                         .build();
                 Log.i("Items",mCurrentPhotoPath);
-                ApiClient.addPhoto(requestBody).enqueue(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        String res= response.body().string();
-                        Log.i("Items",res);
-                    }
-                });
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("photo",mCurrentPhotoPath);
+                editor.commit();
+                Intent i= new Intent(Items.this,ItemDetails.class);
+                startActivity(i);
             }
             else
             {
