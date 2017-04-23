@@ -10,11 +10,12 @@
     android:background="#ffffff">
     <ImageView
         android:id="@+id/iv_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:src="@mipmap/ic_launcher"
         tools:layout_editor_absoluteY="10dp"
-        tools:layout_editor_absoluteX="4dp" />
+        tools:layout_editor_absoluteX="4dp"
+        android:scaleType="fitXY" />
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"

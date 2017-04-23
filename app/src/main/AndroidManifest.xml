@@ -28,17 +28,13 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <!--<intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
         </activity>
         <activity android:name=".StoreNameActivity"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustResize|stateHidden">
         </activity>
         <activity android:name=".StoreLocationActivity">
         </activity>
-        <activity android:name=".item0"></activity>
+        <activity android:name=".ItemDetails"></activity>
         <activity android:name=".Items"></activity>
     </application>
 </manifest>

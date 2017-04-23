@@ -30,11 +30,16 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import okhttp3.Call;
@@ -64,49 +69,56 @@ public class Items extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item0);
+        final SharedPreferences sharedPref = getSharedPreferences(
+                "userDetails", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
         mfab = (FloatingActionButton) findViewById(R.id.add_fab);
         listView = (ListView) findViewById(R.id.listview_product_item0);
+
+        Gson gson = new Gson();
+        String json = sharedPref.getString("itemList", "[]");
+        Type type = new TypeToken<ArrayList<ItemObj>>() {}.getType();
+        ArrayList<ItemObj> arrayList = gson.fromJson(json, type);
+        if(arrayList!=null)
+        {
+            Log.i("items","arraylist not null");
+            item0 adapter = new item0(this, arrayList);
+            listView.setAdapter(adapter);
+        }
         mfab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //add logic to add item to list
+                if (ContextCompat.checkSelfPermission(Items.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED)
+                {
+                    ActivityCompat.requestPermissions(Items.this,new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            REQUEST_WRITE);
+                }
+                else
+                {
+                    takePhotoAndSend();
+                }
             }
         });
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED)
-        {
-            ActivityCompat.requestPermissions(this,new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    REQUEST_WRITE);
-        }
-        else
-        {
-            takePhotoAndSend();
-        }
     }
     @Override
     public void onActivityResult(final int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_TAKE_PHOTO) {
-            if (resultCode == this.RESULT_OK) {
+            if (resultCode == this.RESULT_OK)
+            {
                 Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                 mediaScanIntent.setData(photoUri);
                 this.sendBroadcast(mediaScanIntent);
                 Bitmap bitmap = decodeBitmap(photoUri);
-                final SharedPreferences sharedPref = Items.this.getSharedPreferences(
-                        "userDetails", Context.MODE_PRIVATE);
-                RequestBody requestBody = new MultipartBody.Builder()
-                        .setType(MultipartBody.FORM)
-                        .addFormDataPart("user",sharedPref.getString("name","sampleName"))
-                        .addFormDataPart("itemName","Item")
-                        .addFormDataPart("quantity","30")
-                        .addFormDataPart("cost","482")
-                        .addFormDataPart("fileToUpload","item.jpeg", RequestBody.create(MEDIA_TYPE_JPEG,new File(mCurrentPhotoPath)))
-                        .build();
                 Log.i("Items",mCurrentPhotoPath);
+                final SharedPreferences sharedPref = getSharedPreferences(
+                        "userDetails", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString("photo",mCurrentPhotoPath);
-                editor.commit();
-                Intent i= new Intent(Items.this,ItemDetails.class);
+                editor.apply();
+                Log.i("Items","preparing to go to details");
+                Intent i= new Intent(this,ItemDetails.class);
                 startActivity(i);
             }
             else
@@ -152,7 +164,6 @@ public class Items extends AppCompatActivity {
                 {
                     Toast.makeText(Items.this,"Permission Granted", Toast.LENGTH_SHORT).show();
                     takePhotoAndSend();
-
                 }
                 else
                 {
@@ -181,14 +192,43 @@ public class Items extends AppCompatActivity {
                         storageDir      /* directory */
                 );
                 mCurrentPhotoPath = image.getAbsolutePath();
-            } catch (IOException e) {
+            } catch (IOException e)
+            {
                 Log.e("Items", "File Error");
             }
-            if (image != null) {
+            if (image != null)
+            {
                 photoUri = FileProvider.getUriForFile(this,"com.hackust.createastore.fileprovider",image);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
         }
+    }
+
+    /**
+     * Dispatch onResume() to fragments.  Note that for better inter-operation
+     * with older versions of the platform, at the point of this call the
+     * fragments attached to the activity are <em>not</em> resumed.  This means
+     * that in some cases the previous state may still be saved, not allowing
+     * fragment transactions that modify the state.  To correctly interact
+     * with fragments in their proper state, you should instead override
+     * {@link #onResumeFragments()}.
+     */
+    @Override
+    protected void onResume() {
+        final SharedPreferences sharedPref = getSharedPreferences(
+                "userDetails", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        Gson gson = new Gson();
+        String json = sharedPref.getString("itemList", "[]");
+        Type type = new TypeToken<ArrayList<ItemObj>>() {}.getType();
+        ArrayList<ItemObj> arrayList = gson.fromJson(json, type);
+        if(arrayList!=null)
+        {
+            Log.i("Items","arraylist is not null");
+            item0 adapter = new item0(this, arrayList);
+            listView.setAdapter(adapter);
+        }
+        super.onResume();
     }
 }
